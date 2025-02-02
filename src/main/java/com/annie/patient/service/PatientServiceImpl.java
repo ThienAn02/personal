@@ -9,7 +9,6 @@ import com.annie.patient.entity.Patient;
 
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 import jakarta.ws.rs.BadRequestException;
 
 import java.util.List;
@@ -48,9 +47,6 @@ public class PatientServiceImpl implements PatientService {
         return patientMapper.toResponseDTO(addedPatient);
     }
 
-
-
-    @Transactional
     @Override
     public PatientResponseDto updatePatient(Long id, PatientRequestDto patientRequest) {
         boolean isExistedById = patientDao.findById(id).isPresent();
@@ -58,22 +54,27 @@ public class PatientServiceImpl implements PatientService {
             throw new BadRequestException(PatientExceptionMessage.PATIENT_NOT_FOUND);
         }
 
-        Optional<Patient> existedPatientByName = patientDao.findByName(patientRequest.getName());
-        if (existedPatientByName.isPresent()) {
-            if (existedPatientByName.get().getId().equals(id)) {
-                throw new IllegalArgumentException(PatientExceptionMessage.PATIENT_NAME_DUPLICATED);
-            } else {
-                throw new IllegalArgumentException(PatientExceptionMessage.PATIENT_NAME_EXISTED);
-            }
+
+        Patient existingPatient = patientDao.findById(id).get();
+
+        if (patientRequest.getAddress() != null) {
+            existingPatient.setAddress(patientRequest.getAddress());
+        }
+        if (patientRequest.getAge() != null) {
+            existingPatient.setAge(patientRequest.getAge());
+        }
+        if (patientRequest.getGender() != null) {
+            existingPatient.setGender(patientRequest.getGender());
+        }
+        if (patientRequest.getPhone() != null && !patientRequest.getPhone().isEmpty()) {
+            existingPatient.setPhone(patientRequest.getPhone());
         }
 
-        Patient patient = patientMapper.toEntity(patientRequest);
-        patient.setId(id);
-        Patient updatedPatient = patientDao.update(patient);
+        Patient updatedPatient = patientDao.update(existingPatient);
         return patientMapper.toResponseDTO(updatedPatient);
     }
 
-    @Transactional
+
     @Override
     public void deletePatient(Long id) {
         boolean isExisted = patientDao.findById(id).isPresent();

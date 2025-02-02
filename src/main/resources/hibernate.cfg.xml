@@ -9,7 +9,6 @@
         <property name="hibernate.format_sql">true</property>
         <property name="hibernate.transaction.coordinator_class">jta</property>
         <property name="hibernate.transaction.jta.platform">org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform</property>
-<!--        <mapping class="com.annie.team.entity.Team"/>-->
         <mapping class="com.annie.patient.entity.Patient"/>
     </session-factory>
 </hibernate-configuration>

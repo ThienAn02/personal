@@ -32,8 +32,8 @@ ENV JBOSS_HOME /opt/jboss/wildfly
 ENV VALID_CONNECTION_CHECKER org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker
 
 # Define database environment variables (these will be overridden by docker-compose)
-ARG DB_HOST=jdbc:postgresql://postgres:5432/agile_assessment_dev
-ARG DB_NAME=agile_assessment_dev
+ARG DB_HOST=jdbc:postgresql://postgres:5432/hospital_management_dev
+ARG DB_NAME=hospital_management_dev
 ARG DB_USER=postgres
 ARG DB_PASS=Aavn1234567890~
 
@@ -58,7 +58,7 @@ FROM wildfly_builder as deployer
 RUN mkdir -p $JBOSS_HOME/standalone/deployments/
 
 # Copy the WAR file from the builder stage
-COPY --from=builder /app/target/agile-assessment.war $JBOSS_HOME/standalone/deployments/
+COPY --from=builder /app/target/hospital-management.war $JBOSS_HOME/standalone/deployments/
 
 # Define the entry point for WildFly
 CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]

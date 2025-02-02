@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PatientResponseDto {
+    private Long id;
     private String name;
-
     private int age;
 }
