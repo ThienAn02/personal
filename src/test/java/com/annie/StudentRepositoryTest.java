@@ -1,8 +1,8 @@
-package org.tutorial;
+package com.annie;
 
 import org.junit.*;
-import org.tutorial.model.Student;
-import org.tutorial.repository.StudentRepository;
+import com.annie.model.Student;
+import com.annie.repository.StudentRepository;
 
 import static org.junit.Assert.*;
 
