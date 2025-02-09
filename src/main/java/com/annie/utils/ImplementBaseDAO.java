@@ -1,8 +1,11 @@
 package com.annie.utils;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
-import org.hibernate.Session;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -10,14 +13,17 @@ public class ImplementBaseDAO<T, ID> implements BaseDAO<T, ID> {
 
     private final Class<T> classType;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     public ImplementBaseDAO(Class<T> classType) {
         this.classType = classType;
     }
 
     @Override
     public Optional<T> findById(ID id) {
-        try (Session session = HibernateFactory.getSession()) {
-            T findingObject = session.find(classType, id);
+        try {
+            T findingObject = entityManager.find(classType, id);
             return Optional.ofNullable(findingObject);
         } catch (Exception e) {
             return Optional.empty();
@@ -26,8 +32,12 @@ public class ImplementBaseDAO<T, ID> implements BaseDAO<T, ID> {
 
     @Override
     public List<T> findAll() {
-        try (Session session = HibernateFactory.getSession()) {
-            return session.createQuery("FROM " + classType.getName(), classType).getResultList();
+        try {
+            CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+            CriteriaQuery<T> cq = cb.createQuery(classType);
+            Root<T> root = cq.from(classType);
+            cq.select(root);
+            return entityManager.createQuery(cq).getResultList();
         } catch (Exception e) {
             return List.of();
         }
@@ -36,8 +46,8 @@ public class ImplementBaseDAO<T, ID> implements BaseDAO<T, ID> {
     @Transactional
     @Override
     public T save(T entity) {
-        try (Session session = HibernateFactory.getSession()) {
-            session.persist(entity);
+        try {
+            entityManager.persist(entity);
             return entity;
         } catch (Exception e) {
             return null;
@@ -47,10 +57,8 @@ public class ImplementBaseDAO<T, ID> implements BaseDAO<T, ID> {
     @Transactional
     @Override
     public T update(T entity) {
-        try (Session session = HibernateFactory.getSession()) {
-            session.merge(entity);
-            session.flush();
-            return entity;
+        try {
+            return entityManager.merge(entity);
         } catch (Exception e) {
             return null;
         }
@@ -59,8 +67,7 @@ public class ImplementBaseDAO<T, ID> implements BaseDAO<T, ID> {
     @Transactional
     @Override
     public void delete(ID id) {
-        Session session = HibernateFactory.getSession();
         Optional<T> deleteEntity = findById(id);
-        deleteEntity.ifPresent(session::remove);
+        deleteEntity.ifPresent(entityManager::remove);
     }
 }

@@ -1,6 +1,7 @@
-package com.annie.patient.entity;
-import com.annie.common.Gender;
+package com.annie.doctor.entity;
+
 import com.annie.medical_record.entity.MedicalRecord;
+import com.annie.common.Gender;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,11 +11,12 @@ import java.util.List;
 
 @Entity
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@NoArgsConstructor
-@Table(name = "patients")
-public class Patient {
+@Table(name = "doctors")
+public class Doctor {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,12 +26,8 @@ public class Patient {
     private String name;
 
     @NotBlank
-    @Column(name = "address")
+    @Column(name = "address", nullable = false)
     private String address;
-
-    @NotNull
-    @Column(name = "age", nullable = false)
-    private Integer age;
 
     @NotNull
     @Column(name = "gender", nullable = false)
@@ -38,7 +36,11 @@ public class Patient {
     @NotBlank
     @Column(name = "phone", nullable = false)
     private String phone;
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MedicalRecord> medicalRecords;
 
+    @NotBlank
+    @Column(name = "specialty", nullable = false)
+    private String specialty;
+
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MedicalRecord> medicalRecords;
 }

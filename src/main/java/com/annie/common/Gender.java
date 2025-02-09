@@ -1,4 +1,4 @@
-package com.annie.patient.entity;
+package com.annie.common;
 
 public enum Gender {
     MALE,

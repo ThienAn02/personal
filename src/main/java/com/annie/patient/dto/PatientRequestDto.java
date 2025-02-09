@@ -1,6 +1,6 @@
 package com.annie.patient.dto;
 
-import com.annie.patient.entity.Gender;
+import com.annie.common.Gender;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
