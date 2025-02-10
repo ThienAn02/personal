@@ -16,8 +16,8 @@ public interface MedicalRecordMapper {
 
     MedicalRecordMapper INSTANCE = Mappers.getMapper(MedicalRecordMapper.class);
     MedicalRecord toEntity(MedicalRecordRequestDto medicalRecordRequestDto);
-    @Mapping(target = "doctorName", source = "doctor.name") // Ánh xạ tên bác sĩ
-    @Mapping(target = "patientName", source = "patient.name") // Ánh xạ tên bệnh nhân
+    @Mapping(target = "doctorName", source = "doctor.name")
+    @Mapping(target = "patientName", source = "patient.name")
     MedicalRecordResponseDto toResponseDTO(MedicalRecord entity);
 
     List<MedicalRecordResponseDto> toResponseDTOList(List<MedicalRecord> records);

@@ -27,7 +27,6 @@ public class PatientDao extends ImplementBaseDAO<Patient, Long> {
             CriteriaQuery<Patient> cq = cb.createQuery(Patient.class);
             Root<Patient> root = cq.from(Patient.class);
 
-            // WHERE name = :name
             Predicate namePredicate = cb.equal(root.get("name"), name);
             cq.where(namePredicate);
 

@@ -52,7 +52,7 @@ public class UserService {
     private void createUser(String email, String password, Role role) {
         User user = new User();
         user.setEmail(email);
-        user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt(12))); // Mã hóa mật khẩu
+        user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt(12)));
         user.setRole(role);
         userDAO.save(user);
     }

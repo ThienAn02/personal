@@ -26,7 +26,6 @@ public class MedicalRecordDao extends ImplementBaseDAO<MedicalRecord, Long> {
         CriteriaQuery<MedicalRecord> cq = cb.createQuery(MedicalRecord.class);
         Root<MedicalRecord> root = cq.from(MedicalRecord.class);
 
-        // WHERE doctor_id = :doctorId
         Predicate doctorPredicate = cb.equal(root.get("doctor").get("id"), doctorId);
         cq.where(doctorPredicate);
 
@@ -38,7 +37,6 @@ public class MedicalRecordDao extends ImplementBaseDAO<MedicalRecord, Long> {
         CriteriaQuery<MedicalRecord> cq = cb.createQuery(MedicalRecord.class);
         Root<MedicalRecord> root = cq.from(MedicalRecord.class);
 
-        // WHERE patient_id = :patientId
         Predicate patientPredicate = cb.equal(root.get("patient").get("id"), patientId);
         cq.where(patientPredicate);
 

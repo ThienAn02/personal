@@ -16,7 +16,6 @@ public class JwtPayload {
     private String email;
     private String role;
 
-    // Sửa lại phương thức toMap để trả về Map<String, Object> thay vì JwtPayload
     public Map<String, Object> toMap() {
         Map<String, Object> claims = new HashMap<>();
         claims.put("email", email);

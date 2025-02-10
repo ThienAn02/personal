@@ -38,9 +38,9 @@ public class UserDao extends ImplementBaseDAO<User, Long> {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> query = cb.createQuery(Long.class);
         Root<User> root = query.from(User.class);
-        query.select(cb.count(root)); // Đếm số lượng bản ghi trong bảng User
+        query.select(cb.count(root));
 
         Long result = entityManager.createQuery(query).getSingleResult();
-        return result != null ? result.intValue() : 0; // Trả về int
+        return result != null ? result.intValue() : 0;
     }
 }

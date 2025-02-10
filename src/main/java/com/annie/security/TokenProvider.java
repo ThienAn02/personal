@@ -23,7 +23,7 @@ public class TokenProvider {
     public String generateToken(JwtPayload payload) {
         try {
             return JWT.create()
-                    .withPayload(payload.toMap()) // Sử dụng toMap() từ JwtPayload
+                    .withPayload(payload.toMap())
                     .withIssuer(ISSUER)
                     .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                     .sign(algorithm);
@@ -42,8 +42,8 @@ public class TokenProvider {
         }
 
         Map<String, Object> result = new HashMap<>();
-        result.put("email", decodedJWT.getClaim("email").asString()); // Email luôn là String
-        result.put("role", decodedJWT.getClaim("role").asString());   // Role cũng là String
+        result.put("email", decodedJWT.getClaim("email").asString());
+        result.put("role", decodedJWT.getClaim("role").asString());
         return result;
     }
 
