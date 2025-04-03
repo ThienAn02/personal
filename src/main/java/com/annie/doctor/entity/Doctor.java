@@ -1,12 +1,15 @@
 package com.annie.doctor.entity;
 
-import com.annie.medical_record.entity.MedicalRecord;
-import com.annie.common.Gender;
+import com.annie.appointment.entity.Appointment;
+import com.annie.base.common.Gender;
+import com.annie.specialty.entity.Specialty;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,33 +17,48 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "doctors")
+@Generated
+@Table(name = "doctor")
 public class Doctor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotBlank
-    @Column(name = "name", nullable = false)
+    @Column(nullable = false)
     private String name;
-
-    @NotBlank
-    @Column(name = "address", nullable = false)
-    private String address;
-
-    @NotNull
-    @Column(name = "gender", nullable = false)
-    private Gender gender;
-
-    @NotBlank
-    @Column(name = "phone", nullable = false)
+    private String email;
+    @Column(nullable = false)
     private String phone;
 
-    @NotBlank
-    @Column(name = "specialty", nullable = false)
-    private String specialty;
+    @Column(nullable = false)
+    private String address;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Gender gender;
+
+    @Column(nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate dob;
+
+    private boolean isDeleted;
+
+    private Integer experienceYears;
+
+    @Column(nullable = false)
+    private String qualification;
+
+    @ManyToOne
+    @JoinColumn(name = "specialty_id", nullable = false)
+    private Specialty specialty;
 
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MedicalRecord> medicalRecords;
+    @JsonIgnore
+    private List<Appointment> appointments = new ArrayList<>();
+
+    @PrePersist
+    public void prePersist() {
+        this.isDeleted = false;
+    }
+
 }

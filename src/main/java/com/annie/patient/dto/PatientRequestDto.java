@@ -1,27 +1,25 @@
 package com.annie.patient.dto;
 
-import com.annie.common.Gender;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import com.annie.base.common.BloodType;
+import com.annie.base.common.Gender;
+import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
+@Builder
 public class PatientRequestDto {
-    @NotBlank(message = "Name is required")
     private String name;
-
+    private String email;
     private String address;
-
-    @NotNull(message = "Age is required")
-    private Integer age;
-
-    @NotNull(message = "Gender is required")
-    private Gender gender;
-
-    @NotBlank
-    @Size(min = 1, max = 15)
     private String phone;
-
+    private String healthNote;
+    private String emergencyContact;
+    private BloodType bloodType;
+    private String allergies;
+    private String insuranceNumber;
+    private LocalDate dob;
+    private Gender gender;
 
 }

@@ -32,9 +32,67 @@
 		<jakarta.el.version>4.0.2</jakarta.el.version>
 		<jersey-bean-validation.version>3.1.8</jersey-bean-validation.version>
 		<io.swagger.core.v3>2.2.21</io.swagger.core.v3>
+		<poi-ooxml-version>5.3.0</poi-ooxml-version>
+		<resteasy-multipart-provider-version>6.2.11.Final</resteasy-multipart-provider-version>
+		<java-jwt>4.4.0</java-jwt>
+		<json-web-token.version>0.11.2</json-web-token.version>
+		<slf4j-api-version>1.7.36</slf4j-api-version>
+		<logback-classic-version>1.4.12</logback-classic-version>
+		<sonar-maven-plugin.version>4.0.0.4121</sonar-maven-plugin.version>
+		<jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
+		<sonar.exclusions>**/*com/axonactive/AgileAssessment.java</sonar.exclusions>
+		<sonar.coverage.exclusions>**/*com/axonactive/AgileAssessment.java,**/*com/axonactive/configuration/**,**/*com/axonactive/exception/**,**/*com/axonactive/email/**,**/*com/axonactive/response/**,**/*com/axonactive/utils/**,**/*com/axonactive/**/constants/**,**/*com/axonactive/**/entity/**,**/*com/axonactive/**/dto/**,**/*com/axonactive/**/rest/**,**/*com/axonactive/**/dao/**,**/*com/axonactive/assessmenttemplate/service/AssessmentTemplateMapper.java,**/*com/axonactive/bulkassessment/service/BulkAssessmentMapper.java,**/*com/axonactive/base/**</sonar.coverage.exclusions>
+		<org.eclipse.microprofile.config>3.1</org.eclipse.microprofile.config>
+		<flyway-plugin.version>11.3.1</flyway-plugin.version>
+		<openapi-generator-maven-plugin.version>7.11.0</openapi-generator-maven-plugin.version>
+		<ewsjavamail.version>2.0</ewsjavamail.version>
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j-api-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback-classic-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>${java-jwt}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>${json-web-token.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>${json-web-token.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>${json-web-token.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${poi-ooxml-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-multipart-provider</artifactId>
+			<version>${resteasy-multipart-provider-version}</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>jakarta.platform</groupId>
 			<artifactId>jakarta.jakartaee-api</artifactId>
@@ -62,13 +120,25 @@
 			<artifactId>junit-jupiter-api</artifactId>
 			<version>${junit-jupiter-api.version}</version>
 			<scope>test</scope>
-		</dependency>
+		</dependency> <dependency>
+		<groupId>org.mindrot</groupId>
+		<artifactId>jbcrypt</artifactId>
+		<version>0.4</version>
+	</dependency> <dependency>
+		<groupId>com.itextpdf</groupId>
+		<artifactId>kernel</artifactId>
+		<version>7.1.15</version>
+	</dependency>
 		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<version>${mockito-core.version}</version>
-			<scope>test</scope>
-		</dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>layout</artifactId>
+			<version>7.1.15</version>
+		</dependency>		<dependency>
+		<groupId>org.mockito</groupId>
+		<artifactId>mockito-core</artifactId>
+		<version>${mockito-core.version}</version>
+		<scope>test</scope>
+	</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-junit-jupiter</artifactId>
@@ -79,25 +149,21 @@
 			<groupId>org.glassfish.jersey.core</groupId>
 			<artifactId>jersey-server</artifactId>
 			<version>${jersey-server.version}</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>${hibernate-validator.version}</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish</groupId>
 			<artifactId>jakarta.el</artifactId>
 			<version>${jakarta.el.version}</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.ext</groupId>
 			<artifactId>jersey-bean-validation</artifactId>
 			<version>${jersey-bean-validation.version}</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mapstruct</groupId>
@@ -125,28 +191,47 @@
 			<version>${io.swagger.core.v3}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>${jacoco-maven-plugin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.microprofile.config</groupId>
+			<artifactId>microprofile-config-api</artifactId>
+			<version>${org.eclipse.microprofile.config}</version>
+		</dependency>
+		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
 			<version>2.15.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.mindrot</groupId>
-			<artifactId>jbcrypt</artifactId>
-			<version>0.4</version>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>${flyway-plugin.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.auth0</groupId>
-			<artifactId>java-jwt</artifactId>
-			<version>4.4.0</version>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-database-postgresql</artifactId>
+			<version>${flyway-plugin.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.sonarsource.scanner.maven</groupId>
+			<artifactId>sonar-maven-plugin</artifactId>
+			<version>${sonar-maven-plugin.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt</artifactId>
-			<version>0.9.1</version>
+			<groupId>com.microsoft.ews-java-api</groupId>
+			<artifactId>ews-java-api</artifactId>
+			<version>${ewsjavamail.version}</version>
 		</dependency>
-
-
-
+		<dependency>
+			<groupId>javax.xml.ws</groupId>
+			<artifactId>jaxws-api</artifactId>
+			<version>2.3.1</version>
+		</dependency>
 
 	</dependencies>
 

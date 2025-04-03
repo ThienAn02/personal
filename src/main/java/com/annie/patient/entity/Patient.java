@@ -1,11 +1,14 @@
 package com.annie.patient.entity;
-import com.annie.common.Gender;
-import com.annie.medical_record.entity.MedicalRecord;
+import com.annie.appointment.entity.Appointment;
+import com.annie.base.common.BloodType;
+import com.annie.base.common.Gender;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,32 +16,46 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
-@Table(name = "patients")
+@Table(name = "patient")
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Column(name = "name", nullable = false)
+    @Column(nullable = false)
     private String name;
 
-    @NotBlank
-    @Column(name = "address")
+    private String email;
+
     private String address;
 
-    @NotNull
-    @Column(name = "age", nullable = false)
-    private Integer age;
+    @Column(nullable = false)
+    private String phone;
 
-    @NotNull
-    @Column(name = "gender", nullable = false)
+    @Column(name = "health_note", nullable = false)
+    private String healthNote;
+
+    private String emergencyContact;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private BloodType bloodType;
+
+    private String allergies;
+
+    private String insuranceNumber;
+
+    @Column(nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+
+    private LocalDate dob;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Gender gender;
 
-    @NotBlank
-    @Column(name = "phone", nullable = false)
-    private String phone;
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MedicalRecord> medicalRecords;
+    @JsonIgnore
+    private List<Appointment> appointments = new ArrayList<>();
 
 }
